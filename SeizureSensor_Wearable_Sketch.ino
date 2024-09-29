@@ -9,10 +9,11 @@ const int emgPin = 33;
 const char* ssid = "G34";
 const char* password = "designthinking";
 const char *mqtt_broker = "192.168.1.12";
-//const char *rawtopic = "emgRaw";
+const char *emgrawtopic = "emgRaw";
 const char *emgstatustopic = "emgStatus";
 const char *motionstatustopic = "wearablemotionStatus";
 const char *wearablebpmstatustopic = "wearablebpmStatus";
+const char *wearablebpmrawtopic = "wearablebpmRaw"
 const char *mqtt_username = "SeizureSensor";
 const char *mqtt_password = "subpublol";
 const int mqtt_port = 1883;
@@ -140,10 +141,10 @@ void loop() {
     //Serial.println("EMG Spike count reset");
   }
  
-  // Publish EMG value
-  // char tempString[8];
-  // dtostrf(emgValue, 1, 0, tempString);
-  // client.publish(rawtopic, tempString);
+  //Publish EMG value
+  char tempString[8];
+  dtostrf(emgValue, 1, 0, tempString);
+  client.publish(emgrawtopic, tempString);
  
   // Publish spike status (original logic)
   if(emgValue > upBound || emgValue < lowBound){
@@ -284,6 +285,10 @@ void loop() {
             bpmSeizure = "yes";
             //Serial.println(bpmSeizure);
             
+            char tempString[8];
+            dtostrf(BPM, 1, 0, tempString);
+            client.publish(wearablebpmrawtopic, tempString);
+
             if(bpmSeizure == "yes"){
               client.publish(wearablebpmstatustopic, "yes");
             }
