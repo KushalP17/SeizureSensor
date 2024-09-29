@@ -172,7 +172,7 @@ bool at_least_three_conditions_true() {
   if (status.motion) count++;
   if (status.wearablemotion) count++;
   if (status.wearablebpm) count++;
-  return count >= 2;
+  return count >= 3;
 }
 
 // Function to set all pixels to a specific color

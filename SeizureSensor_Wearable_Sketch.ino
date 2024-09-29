@@ -13,7 +13,7 @@ const char *emgrawtopic = "emgRaw";
 const char *emgstatustopic = "emgStatus";
 const char *motionstatustopic = "wearablemotionStatus";
 const char *wearablebpmstatustopic = "wearablebpmStatus";
-const char *wearablebpmrawtopic = "wearablebpmRaw"
+const char *wearablebpmrawtopic = "wearablebpmRaw";
 const char *mqtt_username = "SeizureSensor";
 const char *mqtt_password = "subpublol";
 const int mqtt_port = 1883;
@@ -23,12 +23,12 @@ PubSubClient client(espClient);
 
 const int upBound = 1800;
 const int lowBound = 1600;
-const int sampleTime = 500;
+const int sampleTime = 400;
 volatile int emgValue = 0;
 bool spike = false;
 
 // New variables for seizure detection
-const int EMG_THRESHOLD = 2000;
+const int EMG_THRESHOLD = 1200;
 const int SPIKE_COUNT_THRESHOLD = 5;
 const unsigned long DETECTION_WINDOW = 5000; // 5 seconds in milliseconds
 const unsigned long RESET_INTERVAL = 300000; // 5 minutes in milliseconds
@@ -116,7 +116,7 @@ void loop() {
   client.loop();
  
   emgValue = analogRead(emgPin);
-  //Serial.println(emgValue);
+  Serial.println(emgValue);
  
   // EMG seizure detection logic
   unsigned long currentTime = millis();
@@ -198,7 +198,7 @@ void loop() {
   // Check if 15 minutes have passed since seizure detection
   if (seizureDetected && (millis() - seizureDetectionTime > STATUS_DURATION)) {
     seizureDetected = false;
-    emgSeizureStatus = false;
+    //emgSeizureStatus = false;
     //Serial.println("Seizure status reset");
   }
  
@@ -214,6 +214,7 @@ void loop() {
   //Serial.print(" m/s^2 | Seizure Status: ");
   //Serial.println(seizureDetected ? "TRUE" : "FALSE");
 
+  //------------------------------------------------------------------------------
 
   int Signal = analogRead(PULSE_SENSOR_PIN);
  
@@ -279,15 +280,18 @@ void loop() {
             }
           }
 
+          char tempString[8];
+          dtostrf(BPM, 1, 0, tempString);
+          client.publish(wearablebpmrawtopic, tempString);
+          Serial.println(tempString);
+
           Serial.print("BPM FLAG: ");
           Serial.println(bpmFlag);
           if(bpmFlag>3){
             bpmSeizure = "yes";
             //Serial.println(bpmSeizure);
             
-            char tempString[8];
-            dtostrf(BPM, 1, 0, tempString);
-            client.publish(wearablebpmrawtopic, tempString);
+            
 
             if(bpmSeizure == "yes"){
               client.publish(wearablebpmstatustopic, "yes");
