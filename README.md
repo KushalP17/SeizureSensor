@@ -1,4 +1,8 @@
- parents relied on a basic webcam system to monitor him, often missing critical moments when seizures occurred. This pressing need for a more reliable monitoring system drove us to create Seizure Sensor.
+# Seizure Sensor: A Revolutionary Approach to Epilepsy Monitoring
+
+## Inspiration
+
+The inspiration for Seizure Sensor came from a deeply personal place. Kevork's brother, who suffers from epilepsy, faces the constant threat of life-threatening seizures during the night. His parents relied on a basic webcam system to monitor him, often missing critical moments when seizures occurred. This pressing need for a more reliable monitoring system drove us to create Seizure Sensor.
 
 ## What it does
 
