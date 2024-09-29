@@ -54,4 +54,4 @@ This integrated system provides accurate, timely detection of seizure activity a
 
 
 
-Demo Video: https://youtu.be/MLZzsp08FCU
+Demo Video: https://youtu.be/Kq5cHZoVIS0
