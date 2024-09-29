@@ -53,7 +53,7 @@ void loop() {
   }
   client.loop();
 
-  int emgValue = analogRead(33); 
+  int emgValue = analogRead(emgPin); 
 
   Serial.println(emgValue);
     
