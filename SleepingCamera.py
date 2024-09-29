@@ -67,14 +67,13 @@ while alive:
         steady_motion_frames = 0
 
     if steady_motion_frames > 30:
-        MQTT_Publisher.publish("MOTION")
         count+=1
         print(count)
-        if count < 240:
-            MQTT_Publisher.publish("motion")
+        if count > 240:
+            MQTT_Publisher.publish("yes")
     else:
-        MQTT_Publisher.publish("NO MOTION")
         count = 0
+        MQTT_Publisher.publish("no")
 
     if len(frame_avg_list) > 1:
         frame_avg_list.remove(np.max(frame_avg_list))
