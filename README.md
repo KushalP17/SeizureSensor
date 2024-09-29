@@ -51,3 +51,7 @@ This integrated system provides accurate, timely detection of seizure activity a
 3. Explore partnerships with medical institutions for clinical trials.
 4. Investigate the potential for miniaturization and commercialization of the technology.
 5. Develop a user-friendly interface for caregivers to easily monitor and respond to alerts.
+
+
+
+Demo Video: https://youtu.be/MLZzsp08FCU
