@@ -2,6 +2,7 @@ import cv2 as cv
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import MQTT_Publisher
 
 alive = True
 
@@ -13,6 +14,7 @@ running_frame_average = 0
 steady_motion_frames = 0
 total_frames = 1
 prev_frame_average = 0
+count = 0
 
 total_frames_list = [1]
 frame_avg_list = [0]
@@ -23,11 +25,11 @@ cv.namedWindow(win_name, cv.WINDOW_NORMAL)
 # source = cv.VideoCapture('testvideos/seizure_man_2.mp4')
 
 
-run_live_video = False
+run_live_video = True
 show_background_cutout = False
 
 if run_live_video:
-    source = cv.VideoCapture(1)
+    source = cv.VideoCapture(0)
 else:
     vid_src = "File"
     source = cv.VideoCapture('testvideos/seizure_woman.mp4')
@@ -64,10 +66,15 @@ while alive:
     else:
         steady_motion_frames = 0
 
-    if steady_motion_frames > 40:
-        pass # Function for Seizure Motion Detection
+    if steady_motion_frames > 30:
+        MQTT_Publisher.publish("MOTION")
+        count+=1
+        print(count)
+        if count < 240:
+            MQTT_Publisher.publish("motion")
     else:
-        pass # Function for No Motion Detected
+        MQTT_Publisher.publish("NO MOTION")
+        count = 0
 
     if len(frame_avg_list) > 1:
         frame_avg_list.remove(np.max(frame_avg_list))
@@ -90,16 +97,14 @@ while alive:
 
     # print(running_frame_average)
 
-    key = cv.waitKey(20)
+    key = cv.waitKey(1)
     if key == ord("Q") or key == ord("q") or key == 27:
         alive = False
 
     if key == ord("0") or key == 48 or key == 96:
-        source = cv.VideoCapture(1)
+        source = cv.VideoCapture(0)
     elif key == ord("1") or key == 49 or key == 97:
-        source = cv.VideoCapture('testvideos/seizure_woman.mp4')
+        source = cv.VideoCapture('HospitalSeizureVideo360p.mp4')
     
     if key == ord("2") or key == 50 or key == 98:
         show_background_cutout = not show_background_cutout
-
-
